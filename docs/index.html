@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lending Decision Engine — a governed XanoTS template</title>
+    <meta
+      name="description"
+      content="A governed loan decisioning API built with XanoTS. One versioned policy decides every application, and every decision returns the exact rule that fired."
+    />
+    <style>
+      :root {
+        --bg: #0a0a0b;
+        --panel: #141416;
+        --panel-2: #1b1b1e;
+        --border: #2a2a2e;
+        --fg: #f4f4f5;
+        --muted: #a1a1aa;
+        --primary: #6ee7b7;
+        --primary-ink: #052e1f;
+        --amber: #fbbf24;
+        --red: #f87171;
+        --green: #34d399;
+        --sky: #7dd3fc;
+      }
+      * { box-sizing: border-box; }
+      html { scroll-behavior: smooth; }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--fg);
+        font: 16px/1.6 ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        -webkit-font-smoothing: antialiased;
+      }
+      a { color: inherit; }
+      .wrap { max-width: 1040px; margin: 0 auto; padding: 0 24px; }
+      .badges { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 22px; }
+      .badge {
+        font-size: 12px; font-weight: 600; letter-spacing: .02em;
+        padding: 5px 11px; border-radius: 999px; border: 1px solid var(--border);
+        background: var(--panel); color: var(--muted);
+      }
+      .badge.play { color: var(--primary-ink); background: var(--primary); border-color: transparent; }
+      header.hero { padding: 76px 0 40px; }
+      .kicker { display: flex; align-items: center; gap: 12px; margin-bottom: 26px; }
+      .logo {
+        width: 42px; height: 42px; border-radius: 11px; display: grid; place-items: center;
+        background: rgba(110,231,183,.12); color: var(--primary); flex: none;
+      }
+      .logo svg { width: 22px; height: 22px; }
+      .kicker .name { font-weight: 600; }
+      .kicker .sub { color: var(--muted); font-size: 13px; }
+      h1 { font-size: clamp(34px, 5vw, 52px); line-height: 1.05; letter-spacing: -.02em; margin: 0 0 18px; max-width: 18ch; }
+      .lede { font-size: 19px; color: var(--muted); max-width: 62ch; margin: 0 0 22px; }
+      .meta { font-size: 14px; color: var(--muted); margin-bottom: 28px; }
+      .meta strong { color: var(--fg); font-weight: 600; }
+      .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; }
+      .btn {
+        display: inline-flex; align-items: center; gap: 8px; text-decoration: none;
+        font-weight: 600; font-size: 15px; padding: 12px 20px; border-radius: 10px;
+        border: 1px solid transparent; transition: transform .05s ease, background .15s ease;
+      }
+      .btn:active { transform: translateY(1px); }
+      .btn.primary { background: var(--primary); color: var(--primary-ink); }
+      .btn.primary:hover { background: #86efac; }
+      .btn.ghost { background: transparent; color: var(--fg); border-color: var(--border); }
+      .btn.ghost:hover { background: var(--panel); }
+      .shot { margin: 20px 0 8px; }
+      .shot img {
+        width: 100%; height: auto; display: block; border-radius: 14px;
+        border: 1px solid var(--border); box-shadow: 0 24px 60px rgba(0,0,0,.5);
+      }
+      section { padding: 44px 0; border-top: 1px solid var(--border); }
+      h2 { font-size: 26px; letter-spacing: -.01em; margin: 0 0 10px; }
+      section > .wrap > p.intro { color: var(--muted); max-width: 70ch; margin: 0 0 24px; }
+      .grid { display: grid; gap: 16px; }
+      .cols-3 { grid-template-columns: repeat(3, 1fr); }
+      @media (max-width: 760px) { .cols-3 { grid-template-columns: 1fr; } }
+      .card { background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 20px; }
+      .card h3 { margin: 0 0 6px; font-size: 17px; }
+      .card p { margin: 0; color: var(--muted); font-size: 14px; }
+      table { width: 100%; border-collapse: collapse; font-size: 14px; }
+      th, td { text-align: left; padding: 11px 12px; border-bottom: 1px solid var(--border); vertical-align: top; }
+      th { color: var(--muted); font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: .04em; }
+      td code { font-size: 13px; color: var(--sky); background: var(--panel-2); padding: 2px 6px; border-radius: 5px; }
+      .role { font-size: 12px; color: var(--muted); }
+      pre {
+        background: var(--panel); border: 1px solid var(--border); border-radius: 12px;
+        padding: 18px 20px; overflow-x: auto; font-size: 13.5px; line-height: 1.7; color: #e4e4e7;
+      }
+      pre .c { color: var(--muted); }
+      .note {
+        background: var(--panel-2); border: 1px solid var(--border); border-left: 3px solid var(--amber);
+        border-radius: 10px; padding: 14px 18px; color: var(--muted); font-size: 14px; margin-top: 22px;
+      }
+      footer { padding: 40px 0 70px; color: var(--muted); font-size: 13px; border-top: 1px solid var(--border); }
+    </style>
+  </head>
+  <body>
+    <header class="hero">
+      <div class="wrap">
+        <div class="kicker">
+          <span class="logo" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V10l7-5 7 5v11"/><path d="M9 21v-6h6v6"/></svg>
+          </span>
+          <div>
+            <div class="name">Lending Decision Engine</div>
+            <div class="sub">A XanoTS template</div>
+          </div>
+        </div>
+
+        <div class="badges">
+          <span class="badge play">Business Logic Centralization</span>
+          <span class="badge">Consumer lending</span>
+          <span class="badge">Native API-layer RBAC</span>
+        </div>
+
+        <h1>Every credit decision from one auditable place.</h1>
+        <p class="lede">
+          A governed loan decisioning API. One versioned policy decides every application, and every
+          decision returns the exact rule that fired, the policy version behind it, and a written
+          audit row.
+        </p>
+        <p class="meta"><strong>6</strong> tables · <strong>13</strong> APIs · <strong>1</strong> shared function</p>
+
+        <div class="hero-actions">
+          <a class="btn primary" href="https://github.com/xano-scratch/lending-decision-engine">View on GitHub</a>
+          <a class="btn ghost" href="#use">Use this template</a>
+        </div>
+
+        <div class="shot">
+          <img src="screenshot.png" alt="The decision audit trail beside a decision record showing the exact rule that fired, the applicant facts, the policy version, and who decided." />
+        </div>
+      </div>
+    </header>
+
+    <section>
+      <div class="wrap">
+        <h2>The one governed job</h2>
+        <p class="intro">
+          Underwriting rules tend to get copied across an intake app, a partner API, and an ops
+          tool. They drift, and no one can say which version decided a given loan. This backend pulls
+          those rules into one place.
+        </p>
+        <div class="grid cols-3">
+          <div class="card">
+            <h3>One definition</h3>
+            <p>
+              The whole waterfall lives in one function that both the API and the seed call. There is
+              one way a loan is decided, not several.
+            </p>
+          </div>
+          <div class="card">
+            <h3>Versioned policy</h3>
+            <p>
+              Exactly one rule set is active. Activate a new version and the same application decides
+              differently, with the old decision still on the record.
+            </p>
+          </div>
+          <div class="card">
+            <h3>Written audit</h3>
+            <p>
+              Each decision snapshots the outcome, the firing rule, the version, and the DTI.
+              Re-deciding writes a new row, so nothing is overwritten.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrap">
+        <h2>API surface</h2>
+        <p class="intro">Everything lives under <code>api:lending</code>. Roles are enforced by the API, not the UI.</p>
+        <table>
+          <thead>
+            <tr><th>Method</th><th>Path</th><th>Role</th><th>What it enforces</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>POST</td><td><code>/auth/login</code></td><td class="role">public</td><td>Verifies the password hash, mints a token</td></tr>
+            <tr><td>POST</td><td><code>/seed</code></td><td class="role">public</td><td>Resets and loads the demo data</td></tr>
+            <tr><td>POST</td><td><code>/applications</code></td><td class="role">underwriter, admin</td><td>Submits an application, computes the DTI ratio</td></tr>
+            <tr><td>POST</td><td><code>/applications/decide</code></td><td class="role">underwriter, admin</td><td>Runs the waterfall, writes an audit row</td></tr>
+            <tr><td>GET</td><td><code>/decisions/list</code></td><td class="role">viewer and up</td><td>The decision audit trail</td></tr>
+            <tr><td>GET</td><td><code>/decisions/detail/{id}</code></td><td class="role">viewer and up</td><td>One decision, joined to its rule and applicant</td></tr>
+            <tr><td>POST</td><td><code>/rule-sets/activate</code></td><td class="role">admin</td><td>Activates a version, archives the previous one</td></tr>
+            <tr><td>POST</td><td><code>/rules/upsert</code></td><td class="role">underwriter, admin</td><td>Edits a rule, only while the version is a draft</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrap">
+        <h2>What you can do in the app</h2>
+        <div class="grid cols-3">
+          <div class="card">
+            <h3>Applications</h3>
+            <p>Submit an application against an applicant, then decide it under the active policy.</p>
+          </div>
+          <div class="card">
+            <h3>Decisions</h3>
+            <p>Read the audit trail and open any decision to see the exact rule and version behind it.</p>
+          </div>
+          <div class="card">
+            <h3>Rule sets</h3>
+            <p>Compare the versioned policies and their ordered rules, and activate a version as admin.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="use">
+      <div class="wrap">
+        <h2>Use this template</h2>
+        <p class="intro">
+          Hand this prompt to your coding agent, or run the steps yourself, to stand up your own live
+          copy in a minute.
+        </p>
+        <pre><span class="c"># Ask your agent:</span>
+Clone https://github.com/xano-scratch/lending-decision-engine and stand up
+my own live copy. Run npm install, then npx xanots login, then
+npm run xano:deploy, and load the demo data from the sign-in screen.
+
+<span class="c"># Or run it yourself:</span>
+git clone https://github.com/xano-scratch/lending-decision-engine
+cd lending-decision-engine
+npm install
+npx xanots login          <span class="c"># authenticate with Xano (once)</span>
+npm run xano:deploy        <span class="c"># deploys, prints the live URL</span></pre>
+        <p class="intro" style="margin-top:22px">
+          Then open the printed URL, click "Load the demo data", and sign in as
+          <code>admin@lender.test</code> with password <code>password123</code>.
+        </p>
+        <div class="note">
+          The live links a reviewer is handed point at a short lived ephemeral environment, so they
+          may have expired. The durable artifact is the repo. Re-deploy for fresh links any time.
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div class="wrap">
+        Built with XanoTS. A typed Xano backend plus a React frontend that derives its paths and
+        types from the backend defs. MIT licensed.
+      </div>
+    </footer>
+  </body>
+</html>

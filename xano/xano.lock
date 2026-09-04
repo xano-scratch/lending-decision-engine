@@ -1,0 +1,70 @@
+{
+  "version": 1,
+  "objects": {
+    "app:lending": {
+      "guid": "c31d05f97bcab93d1a159085e87c9a1c",
+      "canonical": "lending",
+      "canonical_source": "code"
+    },
+    "dbo:applicants": {
+      "guid": "e7b39d8ffe49c097c98b851c73e72941"
+    },
+    "dbo:applications": {
+      "guid": "6ee4e93583ac8e033dfa1d76c28eeec5"
+    },
+    "dbo:decision_rules": {
+      "guid": "8c90a5499154028bf08f572e40fe6651"
+    },
+    "dbo:decisions": {
+      "guid": "2841cfb910d54157958cb9e1e304358c"
+    },
+    "dbo:rule_sets": {
+      "guid": "b0d054baf5ed8d02c15e627071ad1c0b"
+    },
+    "dbo:users": {
+      "guid": "157d4a98d979cf04b9ccdb98dfc15229"
+    },
+    "function:decide_application": {
+      "guid": "3db6569c7b8d853e6b10583b342ef9a1"
+    },
+    "query:lending|GET|applicants/list": {
+      "guid": "9bdcdf034e49b6fcc227ba84bf147f3a"
+    },
+    "query:lending|GET|applications/list": {
+      "guid": "01c51d94311f228f909217e017d71c81"
+    },
+    "query:lending|GET|decisions/detail/{decision_id}": {
+      "guid": "5e0a59020aa4e2f25edb99a4f793b7c5"
+    },
+    "query:lending|GET|decisions/list": {
+      "guid": "b960007035b13bd854e440940ad73e23"
+    },
+    "query:lending|GET|rule-sets/list": {
+      "guid": "1430ccc046f858c37e9f33b4b72a718c"
+    },
+    "query:lending|GET|rules/list": {
+      "guid": "da7f4726c03fdc24d8a29b6dd80c291e"
+    },
+    "query:lending|POST|applicants": {
+      "guid": "f9c11ce9b038d7b534bcbd7a6e53ee50"
+    },
+    "query:lending|POST|applications": {
+      "guid": "bd2119624b14dd3488d2cf5e7d3ae769"
+    },
+    "query:lending|POST|applications/decide": {
+      "guid": "c6b2a69a2036952fe2da594e724fa136"
+    },
+    "query:lending|POST|auth/login": {
+      "guid": "f07f758cb7fea2382e7f7e9468b4623a"
+    },
+    "query:lending|POST|rule-sets/activate": {
+      "guid": "418f14882eaf8bad6ecdca7fea702fef"
+    },
+    "query:lending|POST|rules/upsert": {
+      "guid": "483421d6dbc77a927cb0383c75df8acc"
+    },
+    "query:lending|POST|seed": {
+      "guid": "f4b2b1e7841dc99d8834904d1b5f5316"
+    }
+  }
+}
